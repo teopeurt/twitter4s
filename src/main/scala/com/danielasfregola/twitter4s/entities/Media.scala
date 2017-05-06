@@ -11,4 +11,6 @@ case class Media(display_url: String,
                  source_status_id: Option[Long],
                  source_status_id_str: Option[String],
                  `type`: String,
-                 url: String)
+                 url: String,
+                 video_info: VideoInfo)
+
