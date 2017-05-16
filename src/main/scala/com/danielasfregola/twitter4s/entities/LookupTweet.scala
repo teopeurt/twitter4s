@@ -7,6 +7,7 @@ case class LookupTweet(
                  coordinates: Seq[Seq[Seq[Double]]] = Seq.empty,
                  created_at: Date,
                  entities: Option[Entities],
+                 extended_entities: Option[ExtendedEntities],
                  favorite_count: Int = 0,
                  favorited: Boolean = false,
                  id: Long,
