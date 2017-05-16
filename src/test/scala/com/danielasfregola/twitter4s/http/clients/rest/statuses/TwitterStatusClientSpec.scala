@@ -198,6 +198,39 @@ class TwitterStatusClientSpec extends ClientSpec {
       result.rate_limit === rateLimit
       result.data === loadJsonAs[LookupMapped]("/fixtures/rest/statuses/lookup_mapped.json")
     }
+
+    "get video url" in new TwitterStatusClientSpecContext {
+      val result: RatedData[Tweet] = when(getTweet(560049149836808192L)).expectRequest { request =>
+
+        request.method === HttpMethods.GET
+        request.uri.endpoint === "https://api.twitter.com/1.1/statuses/show.json"
+        request.uri.queryString() === Some("id=560049149836808192&include_entities=true&include_my_retweet=false&trim_user=false")
+
+      }.respondWithRated("/twitter/rest/statuses/lookup_media_video.json").await
+      result.rate_limit === rateLimit
+
+      val entities = result.data.extended_entities.get
+
+      val media = entities.media.seq.head
+
+      val video = media.video_info.variants.head
+
+      video.url === "https:\\/\\/video.twimg.com\\/ext_tw_video\\/560049056895209473\\/pu\\/pl\\/udxtIM8FytsAE4HQ.m3u8"
+
+      result.data === loadJsonAs[Tweet]("/fixtures/rest/statuses/lookup_media_video.json")
+    }
+
+//    "perform a show tweet request" in new TwitterStatusClientSpecContext {
+//      val result: RatedData[Tweet] = when(getTweet(648866645855879168L)).expectRequest { request =>
+//        request.method === HttpMethods.GET
+//        request.uri.endpoint === "https://api.twitter.com/1.1/statuses/show.json"
+//        request.uri.queryString() === Some("id=648866645855879168&include_entities=true&include_my_retweet=false&trim_user=false")
+//      }.respondWithRated("/twitter/rest/statuses/show.json").await
+//      result.rate_limit === rateLimit
+//      result.data === loadJsonAs[Tweet]("/fixtures/rest/statuses/show.json")
+//    }
+
+
   }
 }
 
