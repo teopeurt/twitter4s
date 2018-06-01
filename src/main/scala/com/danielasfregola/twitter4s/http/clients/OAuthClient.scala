@@ -5,26 +5,28 @@ import akka.http.scaladsl.model.HttpMethods._
 import akka.http.scaladsl.model._
 import akka.stream.Materializer
 import com.danielasfregola.twitter4s.http.marshalling.{BodyEncoder, Parameters}
-import com.danielasfregola.twitter4s.http.oauth.OAuth2Provider
+import com.danielasfregola.twitter4s.http.oauth.OAuth1Provider
 
 import scala.concurrent.{ExecutionContext, Future}
 
 private[twitter4s] trait OAuthClient extends CommonClient with RequestBuilding {
 
-  def oauthProvider: OAuth2Provider
+  def oauthProvider: OAuth1Provider
 
-  def withOAuthHeader(callback: Option[String])(implicit materializer: Materializer): HttpRequest => Future[HttpRequest] = { request =>
+  def withOAuthHeader(callback: Option[String])(
+      implicit materializer: Materializer): HttpRequest => Future[HttpRequest] = { request =>
     implicit val ec = materializer.executionContext
     for {
-      authorizationHeader <- oauthProvider.oauth2Header(callback)(request, materializer)
-    } yield request.withHeaders( request.headers :+ authorizationHeader )
+      authorizationHeader <- oauthProvider.oauth1Header(callback)(request, materializer)
+    } yield request.withHeaders(request.headers :+ authorizationHeader)
   }
 
-  def withSimpleOAuthHeader(callback: Option[String])(implicit materializer: Materializer): HttpRequest => Future[HttpRequest] = { request =>
+  def withSimpleOAuthHeader(callback: Option[String])(
+      implicit materializer: Materializer): HttpRequest => Future[HttpRequest] = { request =>
     implicit val ec = materializer.executionContext
     for {
-      authorizationHeader <- oauthProvider.oauth2Header(callback)(request.withEntity(HttpEntity.Empty), materializer)
-    } yield request.withHeaders( request.headers :+ authorizationHeader )
+      authorizationHeader <- oauthProvider.oauth1Header(callback)(request.withEntity(HttpEntity.Empty), materializer)
+    } yield request.withHeaders(request.headers :+ authorizationHeader)
   }
 
   override val Get = new OAuthRequestBuilder(GET)
@@ -60,5 +62,3 @@ private[twitter4s] trait OAuthClient extends CommonClient with RequestBuilding {
   }
 
 }
-
-

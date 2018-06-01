@@ -7,11 +7,11 @@ import com.danielasfregola.twitter4s.entities.streaming.CommonStreamingMessage
   * storage or archive, even in the rare case where a deletion message arrives earlier
   * in the stream that the Tweet it references.
   * For more information see
-  * <a href="https://dev.twitter.com/streaming/overview/messages-types#status_deletion_notices_delete" target="_blank">
-  *   https://dev.twitter.com/streaming/overview/messages-types#status_deletion_notices_delete</a>.
+  * <a href="https://developer.twitter.com/en/docs/tweets/filter-realtime/guides/streaming-message-types" target="_blank">
+  *   https://developer.twitter.com/en/docs/tweets/filter-realtime/guides/streaming-message-types</a>.
   */
-case class StatusDeletionNotice(delete: StatusDeletionNoticeInfo) extends CommonStreamingMessage
+final case class StatusDeletionNotice(delete: StatusDeletionNoticeInfo) extends CommonStreamingMessage
 
-case class StatusDeletionNoticeInfo(status: StatusDeletionId)
+final case class StatusDeletionNoticeInfo(status: StatusDeletionId)
 
-case class StatusDeletionId(id: Long, id_str: String, user_id: Long, user_id_str: String)
+final case class StatusDeletionId(id: Long, id_str: String, user_id: Long, user_id_str: String)

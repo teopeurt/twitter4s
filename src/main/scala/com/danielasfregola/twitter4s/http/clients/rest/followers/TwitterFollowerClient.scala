@@ -17,8 +17,8 @@ trait TwitterFollowerClient {
 
   /** Returns a cursored collection of user IDs for every user following the specified user id.
     * For more information see
-    * <a href="https://dev.twitter.com/rest/reference/get/followers/ids" target="_blank">
-    *   https://dev.twitter.com/rest/reference/get/followers/ids</a>.
+    * <a href="https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-followers-ids" target="_blank">
+    *   https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-followers-ids</a>.
     *
     * @param user_id : The ID of the user for whom to return results for.
     *                Helpful for disambiguating when a valid user ID is also a valid screen name.
@@ -40,8 +40,8 @@ trait TwitterFollowerClient {
 
   /** Returns a cursored collection of user IDs for every user following the specified user.
     * For more information see
-    * <a href="https://dev.twitter.com/rest/reference/get/followers/ids" target="_blank">
-    *   https://dev.twitter.com/rest/reference/get/followers/ids</a>.
+    * <a href="https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-followers-ids" target="_blank">
+    *   https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-followers-ids</a>.
     *
     * @param screen_name : The screen name of the user for whom to return results for.
     *                    Helpful for disambiguating when a valid user ID is also a valid screen name.
@@ -63,8 +63,8 @@ trait TwitterFollowerClient {
 
   /** Returns a cursored collection of user stringified IDs for every user following the specified user id.
     * For more information see
-    * <a href="https://dev.twitter.com/rest/reference/get/followers/ids" target="_blank">
-    *   https://dev.twitter.com/rest/reference/get/followers/ids</a>.
+    * <a href="https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-followers-ids" target="_blank">
+    *   https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-followers-ids</a>.
     *
     * @param user_id : The ID of the user for whom to return results for.
     *                Helpful for disambiguating when a valid user ID is also a valid screen name.
@@ -79,15 +79,17 @@ trait TwitterFollowerClient {
     *              Usage of this parameter is encouraged in environments where all 5,000 IDs constitutes too large of a response.
     * @return : The cursored representation of the users stringified ids following the specified user.
     * */
-  def followerStringifiedIdsForUserId(user_id: Long, cursor: Long = -1, count: Int = 5000): Future[RatedData[UserStringifiedIds]] = {
+  def followerStringifiedIdsForUserId(user_id: Long,
+                                      cursor: Long = -1,
+                                      count: Int = 5000): Future[RatedData[UserStringifiedIds]] = {
     val parameters = FollowingParameters(Some(user_id), screen_name = None, cursor, count, stringify_ids = true)
     genericFollowerIds[UserStringifiedIds](parameters)
   }
 
   /** Returns a cursored collection of user stringified IDs for every user following the specified user.
     * For more information see
-    * <a href="https://dev.twitter.com/rest/reference/get/followers/ids" target="_blank">
-    *   https://dev.twitter.com/rest/reference/get/followers/ids</a>.
+    * <a href="https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-followers-ids" target="_blank">
+    *   https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-followers-ids</a>.
     *
     * @param screen_name : The screen name of the user for whom to return results for.
     *                    Helpful for disambiguating when a valid user ID is also a valid screen name.
@@ -102,7 +104,9 @@ trait TwitterFollowerClient {
     *              Usage of this parameter is encouraged in environments where all 5,000 IDs constitutes too large of a response.
     * @return : The cursored representation of the users stringified ids following the specified user.
     * */
-  def followersStringifiedIdsForUser(screen_name: String, cursor: Long = -1, count: Int = 5000): Future[RatedData[UserStringifiedIds]] = {
+  def followersStringifiedIdsForUser(screen_name: String,
+                                     cursor: Long = -1,
+                                     count: Int = 5000): Future[RatedData[UserStringifiedIds]] = {
     val parameters = FollowingParameters(user_id = None, Some(screen_name), cursor, count, stringify_ids = true)
     genericFollowerIds[UserStringifiedIds](parameters)
   }
@@ -114,8 +118,8 @@ trait TwitterFollowerClient {
 
   /** Returns a cursored collection of user objects for users following the specified user.
     * For more information see
-    * <a href="https://dev.twitter.com/rest/reference/get/followers/list" target="_blank">
-    *   https://dev.twitter.com/rest/reference/get/followers/list</a>.
+    * <a href="https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-followers-list" target="_blank">
+    *   https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-followers-list</a>.
     *
     * @param screen_name : The screen name of the user for whom to return results for.
     *                    Helpful for disambiguating when a valid user ID is also a valid screen name.
@@ -136,14 +140,19 @@ trait TwitterFollowerClient {
                        count: Int = 20,
                        skip_status: Boolean = false,
                        include_user_entities: Boolean = true): Future[RatedData[Users]] = {
-    val parameters = FollowersParameters(user_id = None, screen_name = Some(screen_name), cursor, count, skip_status, include_user_entities)
+    val parameters = FollowersParameters(user_id = None,
+                                         screen_name = Some(screen_name),
+                                         cursor,
+                                         count,
+                                         skip_status,
+                                         include_user_entities)
     genericGetFollowers(parameters)
   }
 
   /** Returns a cursored collection of user objects for users following the specified user id.
     * For more information see
-    * <a href="https://dev.twitter.com/rest/reference/get/followers/list" target="_blank">
-    *   https://dev.twitter.com/rest/reference/get/followers/list</a>.
+    * <a href="https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-followers-list" target="_blank">
+    *   https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-followers-list</a>.
     *
     * @param user_id : The screen name of the user for whom to return results for.
     *                Helpful for disambiguating when a valid user ID is also a valid screen name.
@@ -164,7 +173,12 @@ trait TwitterFollowerClient {
                          count: Int = 20,
                          skip_status: Boolean = false,
                          include_user_entities: Boolean = true): Future[RatedData[Users]] = {
-    val parameters = FollowersParameters(user_id = Some(user_id), screen_name = None, cursor, count, skip_status, include_user_entities)
+    val parameters = FollowersParameters(user_id = Some(user_id),
+                                         screen_name = None,
+                                         cursor,
+                                         count,
+                                         skip_status,
+                                         include_user_entities)
     genericGetFollowers(parameters)
   }
 
