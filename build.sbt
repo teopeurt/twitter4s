@@ -1,9 +1,11 @@
 import com.typesafe.sbt.SbtGit.{GitKeys => git}
 
-name := "twitter4s"
-version := "5.2-SNAPSHOT"
+enablePlugins(GhpagesPlugin, SiteScaladocPlugin)
 
-scalaVersion := "2.12.1"
+name := "twitter4s"
+version := "6.0-SNAPSHOT"
+
+scalaVersion := "2.12.4"
 
 resolvers ++= Seq(
   "Sonatype Releases" at "https://oss.sonatype.org/content/repositories/releases/",
@@ -12,32 +14,36 @@ resolvers ++= Seq(
 
 libraryDependencies ++= {
 
-  val Typesafe = "1.3.1"
-  val Akka = "2.4.16"
-  val AkkaHttp = "10.0.1"
-  val AkkaHttpJson4s = "1.11.0"
-  val Json4s = "3.5.0"
-  val Spec2 = "3.8.6"
-  val ScalaLogging = "3.5.0"
+  val Typesafe = "1.3.2"
+  val Akka = "2.5.8"
+  val AkkaHttp = "10.0.10"
+  val AkkaHttpJson4s = "1.18.1"
+  val Json4s = "3.5.3"
+  val Specs2 = "4.0.1"
+  val ScalaLogging = "3.7.2"
+  val RandomDataGenerator = "2.3"
 
   Seq(
     "com.typesafe" % "config" % Typesafe,
+    "com.typesafe.akka" %% "akka-actor" % Akka,
+    "com.typesafe.akka" %% "akka-stream" % Akka,
     "com.typesafe.akka" %% "akka-http" % AkkaHttp,
     "de.heikoseeberger" %% "akka-http-json4s" % AkkaHttpJson4s,
     "org.json4s" %% "json4s-native" % Json4s,
     "org.json4s" %% "json4s-ext" % Json4s,
     "com.typesafe.scala-logging" %% "scala-logging" % ScalaLogging,
-    "org.specs2" %% "specs2-core" % Spec2 % "test",
-    "org.specs2" %% "specs2-mock" % Spec2 % "test",
-    "com.typesafe.akka" %% "akka-testkit" % Akka % "test"
+    "org.specs2" %% "specs2-core" % Specs2 % "test",
+    "org.specs2" %% "specs2-mock" % Specs2 % "test",
+    "com.typesafe.akka" %% "akka-testkit" % Akka % "test",
+    "com.danielasfregola" %% "random-data-generator" % RandomDataGenerator % "test"
   )
 }
 
 scalacOptions in ThisBuild ++= Seq("-language:postfixOps",
-  "-language:implicitConversions",
-  "-language:existentials",
-  "-feature",
-  "-deprecation")
+                                   "-language:implicitConversions",
+                                   "-language:existentials",
+                                   "-feature",
+                                   "-deprecation")
 
 test in assembly := {}
 
@@ -49,7 +55,7 @@ lazy val standardSettings = Seq(
     ScmInfo(url("https://github.com/DanielaSfregola/twitter4s"),
             "scm:git:git@github.com:DanielaSfregola/twitter4s.git")),
   apiURL := Some(url("http://DanielaSfregola.github.io/twitter4s/latest/api/")),
-  crossScalaVersions := Seq("2.12.1", "2.11.8"),
+  crossScalaVersions := Seq("2.12.4", "2.11.12"),
   pomExtra := (
     <developers>
     <developer>
@@ -60,6 +66,10 @@ lazy val standardSettings = Seq(
   </developers>
   ),
   publishMavenStyle := true,
+  publishTo := {
+    if (version.value.trim.endsWith("SNAPSHOT")) Some(Opts.resolver.sonatypeSnapshots)
+    else Some(Opts.resolver.sonatypeStaging)
+  },
   git.gitRemoteRepo := "git@github.com:DanielaSfregola/twitter4s.git",
   scalacOptions ++= Seq(
     "-encoding",
@@ -88,8 +98,13 @@ lazy val coverageSettings = Seq(
   coverageMinimum := 85
 )
 
-lazy val root = Project(
-  id = "twitter4s",
-  base = file("."),
-  settings = standardSettings ++ coverageSettings ++ site.settings ++ site.includeScaladoc(version + "/api")
-      ++ site.includeScaladoc("latest/api") ++ ghpages.settings)
+scalafmtOnCompile in ThisBuild := true
+scalafmtTestOnCompile in ThisBuild := true
+
+siteSubdirName in SiteScaladoc := version + "/api"
+
+lazy val root = (project in file("."))
+  .settings(standardSettings ++ coverageSettings)
+  .settings(
+    name := "twitter4s"
+  )

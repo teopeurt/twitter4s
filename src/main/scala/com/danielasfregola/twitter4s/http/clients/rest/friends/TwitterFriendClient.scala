@@ -17,8 +17,8 @@ trait TwitterFriendClient {
 
   /** Returns a cursored collection of user IDs for every user the specified user id is following (otherwise known as their “friends”).
     * For more information see
-    * <a href="https://dev.twitter.com/rest/reference/get/friends/ids" target="_blank">
-    *   https://dev.twitter.com/rest/reference/get/friends/ids</a>.
+    * <a href="https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-friends-ids" target="_blank">
+    *   https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-friends-ids</a>.
     *
     * @param user_id : The ID of the user for whom to return results for.
     *                Helpful for disambiguating when a valid user ID is also a valid screen name.
@@ -40,8 +40,8 @@ trait TwitterFriendClient {
 
   /** Returns a cursored collection of user IDs for every user the specified user is following (otherwise known as their “friends”).
     * For more information see
-    * <a href="https://dev.twitter.com/rest/reference/get/friends/ids" target="_blank">
-    *   https://dev.twitter.com/rest/reference/get/friends/ids</a>.
+    * <a href="https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-friends-ids" target="_blank">
+    *   https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-friends-ids</a>.
     *
     * @param screen_name : The screen name of the user for whom to return results for.
     *                    Helpful for disambiguating when a valid user ID is also a valid screen name.
@@ -63,8 +63,8 @@ trait TwitterFriendClient {
 
   /** Returns a cursored collection of user stringified IDs for every user the specified user id is following (otherwise known as their “friends”).
     * For more information see
-    * <a href="https://dev.twitter.com/rest/reference/get/friends/ids" target="_blank">
-    *   https://dev.twitter.com/rest/reference/get/friends/ids</a>.
+    * <a href="https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-friends-ids" target="_blank">
+    *   https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-friends-ids</a>.
     *
     * @param user_id : The ID of the user for whom to return results for.
     *                Helpful for disambiguating when a valid user ID is also a valid screen name.
@@ -79,15 +79,17 @@ trait TwitterFriendClient {
     *              Usage of this parameter is encouraged in environments where all 5,000 IDs constitutes too large of a response.
     * @return : The cursored representation of the user stringified ids the specified user id is following.
     * */
-  def friendStringifiedIdsForUserId(user_id: Long, cursor: Long = -1, count: Int = 5000): Future[RatedData[UserStringifiedIds]] = {
+  def friendStringifiedIdsForUserId(user_id: Long,
+                                    cursor: Long = -1,
+                                    count: Int = 5000): Future[RatedData[UserStringifiedIds]] = {
     val parameters = FriendParameters(Some(user_id), screen_name = None, cursor, count, stringify_ids = true)
     genericGetFriendIds[UserStringifiedIds](parameters)
   }
 
   /** Returns a cursored collection of user stringified IDs for every user the specified user is following (otherwise known as their “friends”).
     * For more information see
-    * <a href="https://dev.twitter.com/rest/reference/get/friends/ids" target="_blank">
-    *   https://dev.twitter.com/rest/reference/get/friends/ids</a>.
+    * <a href="https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-friends-ids" target="_blank">
+    *   https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-friends-ids</a>.
     *
     * @param screen_name : The screen name of the user for whom to return results for.
     *                    Helpful for disambiguating when a valid user ID is also a valid screen name.
@@ -102,7 +104,9 @@ trait TwitterFriendClient {
     *              Usage of this parameter is encouraged in environments where all 5,000 IDs constitutes too large of a response.
     * @return : The cursored representation of the user stringified ids the specified user is following.
     * */
-  def friendStringifiedIdsForUser(screen_name: String, cursor: Long = -1, count: Int = 5000): Future[RatedData[UserStringifiedIds]] = {
+  def friendStringifiedIdsForUser(screen_name: String,
+                                  cursor: Long = -1,
+                                  count: Int = 5000): Future[RatedData[UserStringifiedIds]] = {
     val parameters = FriendParameters(user_id = None, Some(screen_name), cursor, count, stringify_ids = true)
     genericGetFriendIds[UserStringifiedIds](parameters)
   }
@@ -114,8 +118,8 @@ trait TwitterFriendClient {
 
   /** Returns a cursored collection of user objects for every user the specified user is following (otherwise known as their “friends”).
     * For more information see
-    * <a href="https://dev.twitter.com/rest/reference/get/friends/list" target="_blank">
-    *   https://dev.twitter.com/rest/reference/get/friends/list</a>.
+    * <a href="https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-friends-list" target="_blank">
+    *   https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-friends-list</a>.
     *
     * @param screen_name : The screen name of the user for whom to return results for.
     *                    Helpful for disambiguating when a valid user ID is also a valid screen name.
@@ -136,14 +140,15 @@ trait TwitterFriendClient {
                      count: Int = 20,
                      skip_status: Boolean = false,
                      include_user_entities: Boolean = true): Future[RatedData[Users]] = {
-    val parameters = FriendsParameters(user_id = None, Some(screen_name), cursor, count, skip_status, include_user_entities)
+    val parameters =
+      FriendsParameters(user_id = None, Some(screen_name), cursor, count, skip_status, include_user_entities)
     genericGetFriends(parameters)
   }
 
   /** Returns a cursored collection of user objects for every user the specified user id is following (otherwise known as their “friends”).
     * For more information see
-    * <a href="https://dev.twitter.com/rest/reference/get/friends/list" target="_blank">
-    *   https://dev.twitter.com/rest/reference/get/friends/list</a>.
+    * <a href="https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-friends-list" target="_blank">
+    *   https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-friends-list</a>.
     *
     * @param user_id : The ID of the user for whom to return results for.
     *                Helpful for disambiguating when a valid user ID is also a valid screen name.
@@ -164,7 +169,8 @@ trait TwitterFriendClient {
                        count: Int = 20,
                        skip_status: Boolean = false,
                        include_user_entities: Boolean = true): Future[RatedData[Users]] = {
-    val parameters = FriendsParameters(Some(user_id), screen_name = None, cursor, count, skip_status, include_user_entities)
+    val parameters =
+      FriendsParameters(Some(user_id), screen_name = None, cursor, count, skip_status, include_user_entities)
     genericGetFriends(parameters)
   }
 

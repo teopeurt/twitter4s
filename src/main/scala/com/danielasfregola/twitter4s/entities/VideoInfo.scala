@@ -1,6 +1,6 @@
 package com.danielasfregola.twitter4s.entities
 
 
-case class VideoInfo (aspect_ratio: Seq[Int],
-                      duration_millis: Long,
+final case class VideoInfo (aspect_ratio: Seq[Int],
+                      duration_millis: Option[Long],
                       variants: Seq[VideoInfoVariant])

@@ -8,11 +8,9 @@ import com.danielasfregola.twitter4s.entities.streaming.CommonStreamingMessage
   * making them useful for tracking counts of track terms, for example.
   * Note that the counts do not specify which filter predicates undelivered messages matched.
   * For more information see
-  * <a href="https://dev.twitter.com/streaming/overview/messages-types#limit_notices" target="_blank">
-  *   https://dev.twitter.com/streaming/overview/messages-types#limit_notices</a>.
+  * <a href="https://developer.twitter.com/en/docs/tweets/filter-realtime/guides/streaming-message-types" target="_blank">
+  *   https://developer.twitter.com/en/docs/tweets/filter-realtime/guides/streaming-message-types</a>.
   */
-case class LimitNotice(limit: LimitTrack) extends CommonStreamingMessage
+final case class LimitNotice(limit: LimitTrack) extends CommonStreamingMessage
 
-case class LimitTrack(track: Long)
-
-
+final case class LimitTrack(track: Long)
